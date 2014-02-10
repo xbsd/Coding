@@ -15,7 +15,7 @@
 // 1-3. Modify the temperature conversion program to print a heading above the table.
 // 1-4. Write a program to print the corresponding Celsius to Fahrenheit table.
 
-/*
+
  main() {
  
  int i;
@@ -396,7 +396,7 @@ int getline2 (char s[]) {
     
 }
 
-*/
+
 
 // 1-19. Write a function reverse(s) that reverses the character string s. Use it to write a program that reverses its input a line at a time.
 
