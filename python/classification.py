@@ -1,4 +1,3 @@
-
 # Several different classification methods
 # Results were aggregated from the different classifiers to create ensemble
 
@@ -202,7 +201,53 @@ result = clf.best_estimator_.predict(test)
 np.savetxt(workDir + 'result_svc.csv', result, fmt='%d')
 
 
+##### Load CSV Files in R ####
+##### Run below in R
 
+ada <- as.numeric(readLines("result_ada.csv"))
+gbm <- as.numeric(readLines("result_gbm.csv"))
+rf <- as.numeric(readLines("result_rf.csv"))
+gb2 <- as.numeric(readLines("result_gb2.csv"))
+kn <- as.numeric(readLines("result_kn.csv"))
+svc <- as.numeric(readLines("result_svc.csv"))
+
+z <- data.table(actual=actuals, ada=ada, gbm=gbm, rf=rf, gb2=gb2, kn=kn, svc=svc)
+
+# Get Max Vote out of 6 Tests
+z$finpred <- as.numeric(apply(z[,-1,with=F], 1, function(x) names(table(x))[which.max(table(x))]))
+
+> confusionMatrix(z$actual, z$finpred)
+Confusion Matrix and Statistics
+
+          Reference
+Prediction  1  2  3  4  5
+         1  8  2  1  0  2
+         2  6 11  4  2  3
+         3 11  2  6  4  6
+         4  6  4  1  4  3
+         5  6  1  4  5  3
+
+Overall Statistics
+                                          
+               Accuracy : 0.3048          
+                 95% CI : (0.2187, 0.4022)
+    No Information Rate : 0.3524          
+    P-Value [Acc > NIR] : 0.870063        
+                                          
+                  Kappa : 0.1452          
+ Mcnemar's Test P-Value : 0.009471        
+
+Statistics by Class:
+
+                     Class: 1 Class: 2 Class: 3 Class: 4 Class: 5
+Sensitivity           0.21622   0.5500  0.37500   0.2667  0.17647
+Specificity           0.92647   0.8235  0.74157   0.8444  0.81818
+Pos Pred Value        0.61538   0.4231  0.20690   0.2222  0.15789
+Neg Pred Value        0.68478   0.8861  0.86842   0.8736  0.83721
+Prevalence            0.35238   0.1905  0.15238   0.1429  0.16190
+Detection Rate        0.07619   0.1048  0.05714   0.0381  0.02857
+Detection Prevalence  0.12381   0.2476  0.27619   0.1714  0.18095
+Balanced Accuracy     0.57134   0.6868  0.55829   0.5556  0.49733
 
 
 
