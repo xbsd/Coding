@@ -459,4 +459,52 @@ int numberOfCharsInArray(char* array) {
 }
 
 
+// 1-23. Write a program to remove all comments from a C program. Don’t forget to handle quoted strings and character constants properly. C comments don’t nest.
+
+#define MAXLINE 200
+void removeComment(char s2[]);
+
+
+main() {
+    
+    int c, z;
+    char hold [MAXLINE];
+    int i = 0;
+    
+    while ((c = getchar()) != EOF) {
+        
+        if (c == '\n') {
+            i = 0;
+            removeComment(hold);
+            memset(&hold[0], 0, sizeof(hold));
+        } else {
+        hold[i] = c;
+        ++i;
+        }
+        
+    }
+}
+
+
+void removeComment (char s[]) {
+    
+    int i;
+    
+    for (i = 0; i < strlen(s); ++i) {
+        if (s[i] == '/' && i < strlen(s) && s[i + 1] == '/') {
+            break;
+        } else {
+            //printf("%d", s[i]);
+            putchar (s[i]);
+        }
+        
+
+    }
+    putchar('\n');
+   
+    //return 0;
+}
+
+
+
 
